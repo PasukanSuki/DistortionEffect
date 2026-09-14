@@ -10,16 +10,8 @@ public class DynamicShopkeeper : MonoBehaviour
     [Header("Dialogue")]
     [SerializeField] private ShopkeeperDialogueUI dialogueUI;
 
-    [Header("Player")]
-    [SerializeField] private string playerTag = "Player";
-
-    [Header("Settings")]
-    [SerializeField] private bool greetPlayerAutomatically = true;
-
     private bool characterReady;
-    private bool playerInside;
-    private bool greetedThisVisit;
-    private bool purchasedThisVisit;
+    private bool waitingForReply;
 
     private readonly Queue<string> pendingEvents = new Queue<string>();
 
@@ -97,9 +89,9 @@ public class DynamicShopkeeper : MonoBehaviour
 
         characterReady = true;
 
-        // Project ini TEXT ONLY.
-        // Tidak membutuhkan AudioSource atau ConvaiAudioOutput.
+        // Project ini hanya memakai teks: jangan kirim input mikrofon ke Convai.
         arthur.DisableRemoteAudio();
+        DisableVoiceInput();
 
         Debug.Log("Arthur READY - Text Dialogue Mode.");
 
@@ -110,94 +102,37 @@ public class DynamicShopkeeper : MonoBehaviour
     {
         characterReady = true;
         arthur.DisableRemoteAudio();
+        DisableVoiceInput();
 
         Debug.Log("Arthur character ready.");
 
         FlushPendingEvents();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnMouseDown()
     {
-        if (!other.CompareTag(playerTag))
-            return;
-
-        if (playerInside)
-            return;
-
-        playerInside = true;
-        purchasedThisVisit = false;
-
-        if (greetPlayerAutomatically && !greetedThisVisit)
-        {
-            greetedThisVisit = true;
-
-            SendArthurEvent(
-                "A customer has just approached your shop. " +
-                "Greet the customer warmly as Arthur the shopkeeper. " +
-                "Be friendly and slightly humorous. " +
-                "Reply with only one short sentence."
-            );
-        }
+        Interact();
     }
 
-    private void OnTriggerExit(Collider other)
+    public void Interact()
     {
-        if (!other.CompareTag(playerTag))
+        if (waitingForReply)
             return;
 
-        playerInside = false;
-        greetedThisVisit = false;
-        purchasedThisVisit = false;
+        waitingForReply = true;
 
-        dialogueUI.HideDialogue();
-    }
-
-    public void NotifyPurchase(string itemName)
-    {
-        if (string.IsNullOrWhiteSpace(itemName))
-        {
-            itemName = "an item";
-        }
-
-        purchasedThisVisit = true;
+        if (dialogueUI != null)
+            dialogueUI.ShowDialogue("...");
 
         SendArthurEvent(
-            $"The customer has successfully purchased {itemName}. " +
-            $"React happily as Arthur the shopkeeper and briefly comment " +
-            $"on the customer's choice. Reply with only one short sentence."
+            "The player clicked you. Greet them warmly as Arthur the shopkeeper. " +
+            "Be friendly and slightly humorous. Reply with only one short sentence."
         );
-    }
-
-    public void OnShopExitPressed()
-    {
-        if (!playerInside)
-            return;
-
-        if (purchasedThisVisit)
-        {
-            SendArthurEvent(
-                "The customer is leaving after making a purchase. " +
-                "Give them a short friendly farewell as Arthur. " +
-                "Reply with only one short sentence."
-            );
-        }
-        else
-        {
-            SendArthurEvent(
-                "The customer is leaving the shop without buying anything. " +
-                "React with playful but friendly disappointment as Arthur. " +
-                "Do not insult the customer. " +
-                "Reply with only one short sentence."
-            );
-        }
     }
 
     public void TestGreeting()
     {
-        SendArthurEvent(
-            "Greet the customer as Arthur the shopkeeper. " +
-            "Reply with only one short sentence."
-        );
+        Interact();
     }
 
     private void SendArthurEvent(string eventMessage)
@@ -246,10 +181,25 @@ public class DynamicShopkeeper : MonoBehaviour
         if (string.IsNullOrWhiteSpace(text))
             return;
 
+        waitingForReply = false;
+
         Debug.Log(
             "Arthur: " + text
         );
 
         dialogueUI.ShowDialogue(text);
+    }
+
+    private void DisableVoiceInput()
+    {
+        var manager = ConvaiManager.ActiveManager;
+        if (manager == null)
+            return;
+
+        if (manager.TryGetRoomAudioService(out var audioService))
+            audioService.SetMicMuted(true);
+
+        if (manager.TryGetRoomConnectionService(out var connectionService))
+            connectionService.SetSttMuted(true);
     }
 }

@@ -654,9 +654,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1070111129}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdda2367c721f3a4b9d6db5041250640, type: 3}
+  m_Script: {fileID: 11500000, guid: cf98af0653e29c54daaca8040e2a11dc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShopkeeperTrigger
+  m_EditorClassIdentifier: Assembly-CSharp::DynamicShopkeeper
+  arthur: {fileID: 695562519}
   dialogueUI: {fileID: 1611880825}
 --- !u!1 &1227681023
 GameObject:
@@ -771,17 +772,17 @@ MonoBehaviour:
   <ServerEndpoint>k__BackingField: 0
   <ConnectOnStart>k__BackingField: 1
   _turnTakingOptions:
-    <Mode>k__BackingField: 0
+    <Mode>k__BackingField: 1
     <TurnDetection>k__BackingField: 0
     <CustomTurnDetection>k__BackingField:
       <StopSecs>k__BackingField: 3
       <PreSpeechMs>k__BackingField: 0
       <MaxDurationSecs>k__BackingField: 8
-    <InitialServerStt>k__BackingField: 0
+    <InitialServerStt>k__BackingField: 2
     <LocalAudioPolicy>k__BackingField:
       <StartMutedInPushToTalk>k__BackingField: 1
       <EnableAcousticEchoCancellation>k__BackingField: 0
-      <PushToTalkStartupMode>k__BackingField: 0
+      <PushToTalkStartupMode>k__BackingField: 1
     <PushToTalkPolicy>k__BackingField:
       <ReleaseTailMs>k__BackingField: 1000
       <EnableServerSttToggle>k__BackingField: 1
