@@ -62,6 +62,8 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-# Abaikan Convai SDK dan meta-nya agar tidak masuk ke Git
+# Abaikan semua versi folder Convai SDK dan meta-nya agar tidak masuk ke Git
 /[Aa]ssets/Convai SDK For Unity/
 /[Aa]ssets/Convai SDK For Unity.meta
+/[Aa]ssets/Convai/
+/[Aa]ssets/Convai.meta
