@@ -4,24 +4,35 @@ using UnityEngine;
 
 public class ShopkeeperDialogueUI : MonoBehaviour
 {
+    [Header("UI References")]
     [SerializeField] private GameObject dialogueBubble;
     [SerializeField] private TMP_Text dialogueText;
-    [SerializeField] private float displayDuration = 5f;
+
+    [Header("Settings")]
+    [SerializeField] private float displayDuration = 6f;
 
     private Coroutine hideCoroutine;
 
-    private void Start()
+    private void Awake()
     {
-        dialogueBubble.SetActive(false);
+        if (dialogueBubble != null)
+        {
+            dialogueBubble.SetActive(false);
+        }
     }
 
     public void ShowDialogue(string message)
     {
+        if (dialogueBubble == null || dialogueText == null)
+        {
+            Debug.LogWarning("Dialogue UI belum dihubungkan.");
+            return;
+        }
+
         if (string.IsNullOrWhiteSpace(message))
             return;
 
-        dialogueText.text = message;
-
+        dialogueText.text = message.Trim();
         dialogueBubble.SetActive(true);
 
         if (hideCoroutine != null)
@@ -29,14 +40,32 @@ public class ShopkeeperDialogueUI : MonoBehaviour
             StopCoroutine(hideCoroutine);
         }
 
-        hideCoroutine = StartCoroutine(HideDialogue());
+        hideCoroutine = StartCoroutine(HideAfterDelay());
     }
 
-    private IEnumerator HideDialogue()
+    public void HideDialogue()
+    {
+        if (hideCoroutine != null)
+        {
+            StopCoroutine(hideCoroutine);
+            hideCoroutine = null;
+        }
+
+        if (dialogueBubble != null)
+        {
+            dialogueBubble.SetActive(false);
+        }
+    }
+
+    private IEnumerator HideAfterDelay()
     {
         yield return new WaitForSeconds(displayDuration);
 
-        dialogueBubble.SetActive(false);
+        if (dialogueBubble != null)
+        {
+            dialogueBubble.SetActive(false);
+        }
+
         hideCoroutine = null;
     }
 }

@@ -25,7 +25,7 @@ MonoBehaviour:
   _defaultMicrophoneDeviceId: 
   _connectionTimeout: 30
   _characterAudioVolume: 1
-  _audioFeedbackEnabled: 1
+  _audioFeedbackEnabled: 0
   _backgroundPolicy: 1
   _globalLogLevel: 3
   _includeStackTraces: 1
