@@ -25,6 +25,7 @@
   <Project Path="LiveKitBridge.csproj" />
   <Project Path="Convai.Modules.ClientVoiceActivity.Sentis.csproj" />
   <Project Path="Convai.Modules.BodyAnimation.Editor.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Convai.RestAPI.csproj" />
   <Project Path="Convai.Sample.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
@@ -49,7 +50,6 @@
   <Project Path="Convai.Sample.MultiCharacter.csproj" />
   <Project Path="Reallusion.CCiC.Editor.csproj" />
   <Project Path="Convai.CoreApi.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Convai.Sample.Camera.Tests.EditMode.csproj" />
   <Project Path="Convai.PlatformApi.Legacy.csproj" />
 </Solution>
