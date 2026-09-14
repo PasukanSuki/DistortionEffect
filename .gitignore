@@ -44,6 +44,7 @@ crash-report.txt
 *.csproj
 *.unityproj
 *.sln
+*.slnx
 *.suo
 *.tmp
 *.user
