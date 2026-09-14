@@ -16,6 +16,24 @@
 /[Mm]emoryCaptures/
 /[Rr]ecordings/
 
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local environment and generated reports
+*.log
+*.bak
+*.orig
+crash-report.txt
+
+# Unity build outputs
+*.exe
+*.dll
+*.zip
+*.tar
+*.tar.gz
+
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
 
@@ -66,4 +84,4 @@ crashlytics-build.properties
 /[Aa]ssets/Convai SDK For Unity/
 /[Aa]ssets/Convai SDK For Unity.meta
 /[Aa]ssets/Convai/
-/[Aa]ssets/Convai.meta
+/[Aa]ssets/Convai.meta	
